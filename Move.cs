@@ -10,12 +10,14 @@ public class Move : MonoBehaviour
 
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rb;
+    private Animator _animator;
     private float _horizontalInput;
     private bool _isGrounded;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -30,13 +32,18 @@ public class Move : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
+            _animator.SetTrigger("Jump");
         }
 
+        _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
 
         if (_horizontalInput != 0)
         {
             _spriteRenderer.flipX = _horizontalInput < 0;
+           
         }
+
+
     }
 
     private void FixedUpdate()
