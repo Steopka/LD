@@ -1,35 +1,59 @@
+using System.Collections;
 using UnityEngine;
 
 public class WorldSwitcher : MonoBehaviour
 {
     public GameObject[] WorldAObjects;
-
     public GameObject[] WorldBObjects;
 
-    public KeyCode switchKey = KeyCode.E;
+    public KeyCode skillKey = KeyCode.E;
+    public float skillDuration = 5f;
+    public float skillCooldwn = 3f;
 
-    public bool startInWorldA = true;
+    private bool isWorldA = true;
+    private bool isSkillOnCooldwn = false;
+    private bool isInWorldB = false;
 
-    private bool isWorldA;
+
+
 
      void Start()
     {
-        if (startInWorldA)
-            ActivateWorldA();
-        else
-            ActivateWorldB();
+       ActivateWorldA();
     }
 
-     void Update()
+    void Update()
     {
-        if (Input.GetKeyDown(switchKey))
+        if (Input.GetKeyDown(skillKey) && isWorldA && !isSkillOnCooldwn)
         {
-            if (isWorldA)
-                ActivateWorldB();
-            else
-                ActivateWorldA();
+            StartCoroutine(UseSkill());
         }
     }
+    IEnumerator UseSkill()
+    {
+        ActivateWorldB();
+        isWorldA = false;
+       
+
+
+        yield return new WaitForSeconds(skillDuration);
+
+        ActivateWorldA();
+        isWorldA = true;
+   
+
+        StartCoroutine(CooldownRoutine());
+
+    }
+
+    IEnumerator CooldownRoutine()
+    {
+        isSkillOnCooldwn = true;
+        yield return new WaitForSeconds(skillCooldwn);
+        isSkillOnCooldwn = false;
+        Debug.Log("Skill ready to using");
+    }
+
   public  void ActivateWorldA()
     {
         // world B

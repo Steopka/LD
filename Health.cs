@@ -3,6 +3,8 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public int maxHealth = 3;
+    public GameObject energyPrefab;
+
     private int currentHealth;
 
      void Start()
@@ -21,6 +23,10 @@ public class Health : MonoBehaviour
     }
     void Die()
     {
+        if (energyPrefab != null)
+        {
+            Instantiate(energyPrefab, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
         Debug.Log("Delet");
     }

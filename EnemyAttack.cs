@@ -4,15 +4,15 @@ public class EnemyAttack : MonoBehaviour
 {
     public int damage = 1;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
             if (playerHealth != null)
-               playerHealth.TaKeDamge(damage);
-            
+            {
+                playerHealth.TakeDamage(damage);
+            }
         }
-
     }
 }

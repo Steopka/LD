@@ -29,14 +29,19 @@ public class Attack : MonoBehaviour
     }
   void PerformAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attatRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attatRange);
 
-        foreach(Collider2D enemy in hitEnemies)
+        foreach(Collider2D obj in hitEnemies)
         {
-            Health enemyHealth = enemy.GetComponent<Health>();
-            if(enemyHealth != null )
+            if (obj.CompareTag("Enemy"))
             {
-                enemyHealth.TaKeDamge(damage);
+
+                Health enemyHealth = obj.GetComponent<Health>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TaKeDamge(damage);
+                    Debug.Log("Урон нанесен об: " + obj.name);
+                }
             }
         }
     }
